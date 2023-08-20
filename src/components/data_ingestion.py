@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from src.exception import CustomException
 from src.logger import logging
 from src.components.data_transformation import DataTransformation
+from src.components.model_trainer import ModelTrainer
 from sklearn.model_selection import train_test_split
 
 @dataclass
@@ -18,7 +19,7 @@ class DataIngestion:
 
     def initiate_data_ingestion(self):
 
-        logging.info(f"Data Ingestion si started.")
+        logging.info(f"Data Ingestion is started.")
 
         try:
             data = pd.read_csv('research/data/passwords.csv')
@@ -42,4 +43,5 @@ if __name__ == '__main__':
     train_path, test_path = data_ingesiton.initiate_data_ingestion()
     data_transformation = DataTransformation()
     train_arr, test_arr, preprocessor_path = data_transformation.initiate_data_transformation(train_path, test_path)
-    
+    model_trainer = ModelTrainer()
+    r2_score_preds = model_trainer.initiate_model_trainer(train_arr, test_arr)

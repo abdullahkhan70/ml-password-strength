@@ -21,9 +21,9 @@ class DataTransformation:
 
     def get_transformation(self):
         try:
-            # numerical_features = ["rank", "value", "rank_alt", "font_size", "offline_crack_sec"]
-            numerical_features = ["value"]
-            categorical_features = ["password", "category", "time_unit"]
+            numerical_features = ["rank", "value", "rank_alt", "font_size", "offline_crack_sec"]
+            # numerical_features = ["value"]
+            categorical_features = ["category"]
             # categorical_features = ["password"]
             numerical_pipeline = Pipeline(steps=[
                 ("imputer", SimpleImputer(strategy="median")),
@@ -32,7 +32,7 @@ class DataTransformation:
             categorical_pipeline = Pipeline(steps=[
                 ("imputer", SimpleImputer(strategy="most_frequent")),
                 ("one_hot_encoder", OneHotEncoder(handle_unknown="ignore")),
-                # ("scaler", StandardScaler(with_mean=False))
+                ("scaler", StandardScaler(with_mean=False))
             ])
             logging.info(f"Numberical Columns: {numerical_features}")
             logging.info(f"Categorical Columns: {categorical_features}")
@@ -63,7 +63,7 @@ class DataTransformation:
                 input_feature_train_data = train_data.drop(columns=[target_column], axis=1)
                 target_feature_train_data = train_data[target_column]
 
-                input_feature_test_data = test_data.drop(columns=[target_column])
+                input_feature_test_data = test_data.drop(columns=[target_column], axis=1)
                 target_feature_test_data = test_data[target_column]
 
                 logging.info(f"Applying Preprocessing object in training DataFrame and Testing DataFrame.")
@@ -81,6 +81,8 @@ class DataTransformation:
                 test_arr = np.c_[
                     input_feature_test_arr, np.array(target_feature_test_data)
                 ]
+
+                print(f"Test Arr Shape: {test_arr.shape}")
 
                 logging.info(f"Successfully, saved the Preprocessor object.")
 
