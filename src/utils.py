@@ -3,7 +3,8 @@ import numpy as np
 import pandas as pd
 import dill
 from src.exception import CustomException
-from sklearn.metrics import r2_score
+from sklearn.metrics import r2_score, accuracy_score
+from sklearn.preprocessing import LabelEncoder
 
 def save_object(file_path: str, obj):
     try:
@@ -22,7 +23,7 @@ def load_object(file_path: str):
         print(f"File Path: {dir_path}")
 
         with open(file_path, "rb") as file_obj:
-            data = dill.load(file_obj)
+            data = dill.load(file=file_obj)
             
         return data
 
@@ -33,20 +34,28 @@ def evaluate_preds(true, pred):
     r2_scores = r2_score(true, pred)
     return r2_scores
 
-def evaluate_model(X_train, y_train, X_test, y_test, models: dict):
-    model_list: dict = {}
-    for i in range(len(list(models))):
-        model = list(models.values())[i]
+def get_accuracy_score(true, pred):
+    return accuracy_score(true, pred)
 
-        model.fit(X_train, y_train)
+def evaluates_model(X_train_tfidr, X_test_tfidr, y_train, y_test, models: dict):
+    try:
+        model_list: dict = {}
+        for i in range(len(list(models))):
+            model = list(models.values())[i]
+            if list(models.keys())[i] == "xgb_classifier":
+                le = LabelEncoder()
+                le_y_train = le.fit_transform(y_train)
 
-        y_train_pred = model.predict(X_train)
-        y_test_pred = model.predict(X_test)
+                model.fit(X_train_tfidr, le_y_train)
+            else:
+                model.fit(X_train_tfidr, y_train)
+            
+            y_test_pred = model.predict(X_test_tfidr)
 
-        # Matrics
-        r2_score_y_test = evaluate_preds(y_test, y_test_pred)
+            r2_scores = get_accuracy_score(y_test, y_test_pred)
 
-        model_list[list(models.keys())[i]] = r2_score_y_test
-        
-    print(f"Model List: {model_list}")
-    return model_list
+            model_list[list(models.keys())[i]] = r2_scores
+            
+        return model_list
+    except Exception as error:
+        raise CustomException(error, sys)
