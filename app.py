@@ -11,21 +11,11 @@ def home():
         return render_template('index.html')
     else:
         custom_data_class = CustomDataClass(
-            password=request.form.get('password'),
-            font_size=12,
-            offline_crack_sec=11,
-            rank=1,
-            rank_alt=2.0,
-            value=23
+            password=request.form.get('password')
         )
         features = custom_data_class.get_custom_data()
         predict_pipeline = PredictPipeline()
-        predict = predict_pipeline.predict_pipeline(features=features)
-        answer = ''
-        if predict[0] == 1:
-            answer = "Strong Password"
-        else:
-            answer = "Weak Password"
+        answer = predict_pipeline.predict_pipeline(features=features)
         return render_template('index.html', results = answer)
 
 
