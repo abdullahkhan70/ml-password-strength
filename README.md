@@ -17,6 +17,7 @@ It will install, all the necessary libraries which are mention in **requirements
 ## <u>**Special Thanks**</u>
 **Special thanks to Efim Polianskii, and here are his social links**
 
-[Linkedin]("https://www.linkedin.com/in/efimpolianskii/") [Github]("https://github.com/efimpolianskii")
-[Kaggle-solution]("https://www.kaggle.com/code/timmofeyy/machine-learning-password-weakness-prediction/")
+[Linkedin](https://www.linkedin.com/in/efimpolianskii/) |
+[Github](https://github.com/efimpolianskii) | 
+[Kaggle-solution](https://www.kaggle.com/code/timmofeyy/machine-learning-password-weakness-prediction/)
 

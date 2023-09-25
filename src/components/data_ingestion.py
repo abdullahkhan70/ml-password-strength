@@ -43,7 +43,7 @@ if __name__ == '__main__':
     data_ingesiton = DataIngestion()
     train_path, test_path, raw_path = data_ingesiton.initiate_data_ingestion()
     data_transformer = DataTransformer()
-    X_train_tfidr, X_test_tfidr, y_train, y_test = data_transformer.get_data_transformer(train_path=train_path, test_path=test_path, raw_path=raw_path)
+    X_train_tfidr, X_test_tfidr, y_train, y_test = data_transformer.get_data_transformer(raw_path=raw_path)
     model_trainer = ModelTrain()
     model_trainer.train_model(
         X_train_tfidr=X_train_tfidr,

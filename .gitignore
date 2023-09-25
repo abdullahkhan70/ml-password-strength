@@ -5,7 +5,7 @@ __pycache__/
 
 # Project Ingore
 logs
-catboost_info/*
+catboost_info
 
 # C extensions
 *.so

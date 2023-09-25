@@ -19,12 +19,12 @@ class DataTransformer:
     def __init__(self) -> None:
         self.data_transformer_config = DataTransformerConfig()
 
-    def get_transformer(self, feature_name = 'password'):
+    def get_transformer(self):
         imputer = SimpleImputer(strategy='most_frequent', fill_value='')
         return imputer
 
 
-    def get_data_transformer(self, train_path: str, test_path: str, raw_path: str):
+    def get_data_transformer(self, raw_path: str):
         
         try:
             # Load the Training and Testing Datasets.
@@ -42,7 +42,7 @@ class DataTransformer:
             print(f"y_train Shape is: {y_train.shape}")
 
             # Call transformer to fit and transforms the training and testing dataset.
-            column_transformer = self.get_transformer(feature_name='password')
+            column_transformer = self.get_transformer()
             X_train = column_transformer.fit_transform(X_train.values.reshape(-1, 1)).ravel()
             X_test = column_transformer.transform(X_test.values.reshape(-1, 1)).ravel()
 
